@@ -95,6 +95,8 @@
     background: linear-gradient(120deg, var(--accent), var(--accent2));
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
+  header h2.role .caret { display: inline-block; width: 2px; height: 1.05em; background: var(--accent); margin-left: 3px; vertical-align: -0.15em; animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
   header h2.role { font-size: 21px; color: var(--muted); font-weight: 500; margin: 16px 0 20px; font-family: "Inter", sans-serif; }
   header p.lead { max-width: 560px; color: var(--muted); font-size: 16.5px; }
   .btns { margin-top: 34px; display: flex; gap: 14px; flex-wrap: wrap; }
@@ -252,7 +254,7 @@
     <div class="text">
       <div class="tag"><span class="dot"></span> Available for new opportunities</div>
       <h1>Hi, I'm <span>Beshoy Adel</span></h1>
-      <h2 class="role">Flutter Developer - Mobile &amp; Web</h2>
+      <h2 class="role"><span id="typed">Flutter Developer</span><span class="caret"></span></h2>
       <p class="lead">I build and ship scalable, high-performance mobile and web applications with Flutter and Dart. 3+ years of production experience, currently pursuing an MSc in Computer Science at AASTMT.</p>
       <div class="btns">
         <a class="btn btn-primary" href="#projects"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10-2h4v2h-4V4z"/></svg>View my work</a>
@@ -520,6 +522,23 @@ burger.addEventListener('click', () => {
   burger.classList.toggle('open', open);
   burger.setAttribute('aria-expanded', open);
 });
+const titles = ["Flutter Developer", "Software Engineer", "Mobile App Developer", "Cross-Platform Developer"];
+const typedEl = document.getElementById('typed');
+let ti = 0, ci = titles[0].length, deleting = false;
+typedEl.textContent = titles[0];
+setTimeout(function tick() {
+  const word = titles[ti];
+  if (!deleting) {
+    ci++;
+    if (ci > word.length) { ci = word.length; deleting = true; typedEl.textContent = word; return setTimeout(tick, 1800); }
+  } else {
+    ci--;
+    if (ci === 0) { deleting = false; ti = (ti + 1) % titles.length; }
+  }
+  typedEl.textContent = titles[ti].slice(0, ci);
+  setTimeout(tick, deleting ? 45 : 85);
+}, 2600);
+
 navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
   navMenu.classList.remove('open'); burger.classList.remove('open'); burger.setAttribute('aria-expanded','false');
 }));
